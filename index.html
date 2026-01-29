@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fast & Tidy - Daily Room Cleaning Game</title>
+    <meta name="description" content="Clean a messy room every day! Drag and drop items to tidy up in this satisfying daily puzzle game.">
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#4CAF50">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icons/icon-192x192.png">
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="css/styles.css" as="style">
+    <link rel="preload" href="js/game.js" as="script">
+    
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Loading Screen -->
+        <div id="loading-screen" class="screen active">
+            <div class="loading-content">
+                <h1>Fast & Tidy</h1>
+                <div class="loading-spinner"></div>
+                <p>Loading today's messy room...</p>
+            </div>
+        </div>
+
+        <!-- Main Menu -->
+        <div id="main-menu" class="screen">
+            <div class="menu-content">
+                <h1>Fast & Tidy</h1>
+                <p class="tagline">Clean up, level up!</p>
+                
+                <div class="daily-challenge">
+                    <h2>Today's Challenge</h2>
+                    <div id="room-preview"></div>
+                    <button id="play-button" class="btn-primary">Start Cleaning</button>
+                </div>
+                
+                <div class="stats">
+                    <div class="stat">
+                        <span class="stat-number" id="streak-count">0</span>
+                        <span class="stat-label">Day Streak</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number" id="total-cleaned">0</span>
+                        <span class="stat-label">Rooms Cleaned</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Game Screen -->
+        <div id="game-screen" class="screen">
+            <div class="game-header">
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div id="progress-fill" class="progress-fill"></div>
+                    </div>
+                    <span id="progress-text">0/25 items cleaned</span>
+                </div>
+                <button id="pause-button" class="btn-icon">⏸️</button>
+            </div>
+            
+            <div class="game-container">
+                <canvas id="game-canvas"></canvas>
+                
+                <!-- Touch feedback -->
+                <div id="touch-feedback" class="touch-feedback"></div>
+                
+                <!-- Cleaning zones overlay -->
+                <div id="cleaning-zones" class="cleaning-zones"></div>
+            </div>
+            
+            <div class="game-footer">
+                <div class="timer">
+                    <span id="timer-display">00:00</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Completion Screen -->
+        <div id="completion-screen" class="screen">
+            <div class="completion-content">
+                <h1>🎉 Room Cleaned!</h1>
+                <div class="completion-stats">
+                    <div class="stat">
+                        <span class="stat-number" id="final-time">00:00</span>
+                        <span class="stat-label">Time</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">25/25</span>
+                        <span class="stat-label">Items</span>
+                    </div>
+                </div>
+                
+                <div class="before-after">
+                    <div class="comparison">
+                        <div class="before">
+                            <h3>Before</h3>
+                            <canvas id="before-canvas"></canvas>
+                        </div>
+                        <div class="after">
+                            <h3>After</h3>
+                            <canvas id="after-canvas"></canvas>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="completion-actions">
+                    <button id="share-button" class="btn-secondary">Share Result</button>
+                    <button id="menu-button" class="btn-primary">Back to Menu</button>
+                </div>
+                
+                <p class="next-challenge">Come back tomorrow for a new room!</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Audio -->
+    <audio id="audio-pickup" preload="auto">
+        <source src="audio/pickup.mp3" type="audio/mpeg">
+        <source src="audio/pickup.ogg" type="audio/ogg">
+    </audio>
+    <audio id="audio-drop" preload="auto">
+        <source src="audio/drop.mp3" type="audio/mpeg">
+        <source src="audio/drop.ogg" type="audio/ogg">
+    </audio>
+    <audio id="audio-complete" preload="auto">
+        <source src="audio/complete.mp3" type="audio/mpeg">
+        <source src="audio/complete.ogg" type="audio/ogg">
+    </audio>
+
+    <script src="js/utils.js"></script>
+    <script src="js/audio.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/rooms.js"></script>
+    <script src="js/game.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

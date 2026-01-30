@@ -11,7 +11,7 @@ class FastAndTidyApp {
 
     async init() {
         // Show loading screen
-        this.showScreen('loading');
+        this.showScreen('loading-screen');
         
         // Initialize components
         await this.loadResources();
@@ -98,8 +98,13 @@ class FastAndTidyApp {
         });
 
         // Show target screen
-        document.getElementById(screenId).classList.add('active');
-        this.currentScreen = screenId;
+        const targetScreen = document.getElementById(screenId);
+        if (targetScreen) {
+            targetScreen.classList.add('active');
+            this.currentScreen = screenId;
+        } else {
+            console.error(`Screen not found: ${screenId}`);
+        }
     }
 
     updateMenuStats() {

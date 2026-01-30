@@ -274,17 +274,7 @@ body {
     opacity: 1;
 }
 
-.game-footer {
-    padding: 1rem;
-    background: rgba(0, 0, 0, 0.8);
-    color: white;
-    text-align: center;
-}
-
-.timer {
-    font-size: 1.2rem;
-    font-weight: 600;
-}
+/* Timer removed for cleaner gameplay */
 
 /* Completion Screen */
 #completion-screen {

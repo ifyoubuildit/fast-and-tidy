@@ -246,7 +246,7 @@ class Game {
     start() {
         this.gameState.isPlaying = true;
         this.gameState.startTime = Date.now();
-        this.startTimer();
+        // Timer removed for cleaner gameplay
     }
 
     pause() {
@@ -267,24 +267,7 @@ class Game {
         }
     }
 
-    startTimer() {
-        const updateTimer = () => {
-            if (!this.gameState.isPlaying || this.gameState.isPaused) return;
-            
-            const elapsed = Math.floor((Date.now() - this.gameState.startTime) / 1000);
-            const minutes = Math.floor(elapsed / 60);
-            const seconds = elapsed % 60;
-            
-            document.getElementById('timer-display').textContent = 
-                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-            
-            if (this.gameState.isPlaying) {
-                requestAnimationFrame(updateTimer);
-            }
-        };
-        
-        updateTimer();
-    }
+    // Timer functionality removed for cleaner gameplay
 
     getPointerPos(e) {
         const rect = this.canvas.getBoundingClientRect();
@@ -466,10 +449,8 @@ class Game {
 
     completeGame() {
         this.gameState.isPlaying = false;
-        const completionTime = Math.floor((Date.now() - this.gameState.startTime) / 1000);
         
         const stats = {
-            completionTime: completionTime,
             itemsCompleted: this.gameState.completedItems,
             roomType: this.roomConfig.type
         };

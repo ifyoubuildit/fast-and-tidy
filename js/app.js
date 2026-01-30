@@ -118,13 +118,6 @@ class FastAndTidyApp {
         playButton.textContent = 'Already Completed Today!';
         playButton.disabled = true;
         playButton.style.opacity = '0.6';
-        
-        // Show completion time if available
-        const todayStats = this.storage.getTodayStats();
-        if (todayStats && todayStats.completionTime) {
-            const timeText = this.formatTime(todayStats.completionTime);
-            playButton.textContent = `Completed in ${timeText}`;
-        }
     }
 
     async startGame() {
@@ -173,9 +166,6 @@ class FastAndTidyApp {
     showCompletionScreen(stats) {
         this.showScreen('completion-screen');
         
-        // Update completion stats
-        document.getElementById('final-time').textContent = this.formatTime(stats.completionTime);
-        
         // Show before/after comparison
         this.showBeforeAfter();
     }
@@ -209,8 +199,7 @@ class FastAndTidyApp {
         const stats = this.storage.getTodayStats();
         if (!stats) return;
 
-        const timeText = this.formatTime(stats.completionTime);
-        const shareText = `I just cleaned my room in ${timeText} on Fast & Tidy! 🧹✨\n\nCan you beat my time? Play daily at: ${window.location.href}`;
+        const shareText = `I just cleaned my room on Fast & Tidy! 🧹✨\n\nCan you clean yours? Play daily at: ${window.location.href}`;
 
         if (navigator.share) {
             // Use native sharing if available

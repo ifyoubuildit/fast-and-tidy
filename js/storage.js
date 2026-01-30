@@ -67,7 +67,6 @@ class GameStorage {
         
         // Save today's completion
         this.data.completions[today] = {
-            completionTime: stats.completionTime,
             itemsCompleted: stats.itemsCompleted,
             roomType: stats.roomType,
             timestamp: Date.now()
@@ -87,18 +86,7 @@ class GameStorage {
         
         // Update basic stats
         gameStats.totalRoomsCompleted++;
-        gameStats.totalPlayTime += stats.completionTime;
         gameStats.lastPlayDate = Utils.getDateString();
-        
-        // Update average completion time
-        gameStats.averageCompletionTime = Math.round(
-            gameStats.totalPlayTime / gameStats.totalRoomsCompleted
-        );
-        
-        // Update fastest time
-        if (!gameStats.fastestTime || stats.completionTime < gameStats.fastestTime) {
-            gameStats.fastestTime = stats.completionTime;
-        }
         
         // Update streak
         if (this.data.completions[yesterday]) {
@@ -129,26 +117,7 @@ class GameStorage {
             });
         }
         
-        // Speed achievements
-        if (stats.completionTime <= 60) { // 1 minute
-            achievements.push({
-                id: 'speed-demon',
-                name: 'Speed Demon',
-                description: 'Complete a room in under 1 minute',
-                icon: '⚡',
-                unlockedAt: Date.now()
-            });
-        }
-        
-        if (stats.completionTime <= 30) { // 30 seconds
-            achievements.push({
-                id: 'lightning-fast',
-                name: 'Lightning Fast',
-                description: 'Complete a room in under 30 seconds',
-                icon: '⚡⚡',
-                unlockedAt: Date.now()
-            });
-        }
+        // Speed achievements removed - focus on completion
         
         // Streak achievements
         const currentStreak = this.data.stats.currentStreak;

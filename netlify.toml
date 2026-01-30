@@ -1,9 +1,5 @@
 [build]
   publish = "."
-  command = "echo 'No build step needed - static files only'"
-
-[build.environment]
-  NODE_VERSION = "18"
 
 [[headers]]
   for = "/*"
@@ -11,7 +7,6 @@
     X-Frame-Options = "DENY"
     X-XSS-Protection = "1; mode=block"
     X-Content-Type-Options = "nosniff"
-    Referrer-Policy = "strict-origin-when-cross-origin"
 
 [[headers]]
   for = "/sw.js"
@@ -23,51 +18,8 @@
   [headers.values]
     Content-Type = "application/manifest+json"
 
-[[headers]]
-  for = "*.js"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
-
-[[headers]]
-  for = "*.css"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
-
-[[headers]]
-  for = "*.png"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
-
-[[headers]]
-  for = "*.jpg"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
-
-[[headers]]
-  for = "*.mp3"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
-
-[[headers]]
-  for = "*.ogg"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
-
-# Redirect for PWA
+# SPA fallback
 [[redirects]]
   from = "/*"
-  to = "/index.html"
-  status = 200
-  conditions = {Role = ["admin"]}
-
-# Handle share target
-[[redirects]]
-  from = "/share"
-  to = "/index.html"
-  status = 200
-
-# Handle PWA shortcuts
-[[redirects]]
-  from = "/?action=play"
   to = "/index.html"
   status = 200

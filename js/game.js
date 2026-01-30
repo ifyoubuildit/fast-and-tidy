@@ -88,10 +88,58 @@ class Game {
     }
 
     async loadRoomImages() {
-        // For now, create placeholder images
-        // In production, these would load from Firebase Storage
-        this.roomImages.messy = await this.createPlaceholderRoom('messy');
-        this.roomImages.clean = await this.createPlaceholderRoom('clean');
+        // Try to load from Firebase Storage first
+        const firebaseStorage = new FirebaseStorageManager();
+        await firebaseStorage.init();
+        
+        const roomType = this.roomConfig.id || 'bedroom';
+        
+        try {
+            // Try loading from Firebase
+            const messyUrl = await firebaseStorage.getRoomImage(roomType, 'messy');
+            const cleanUrl = await firebaseStorage.getRoomImage(roomType, 'clean');
+            
+            if (messyUrl && cleanUrl) {
+                this.roomImages.messy = await this.loadImageFromUrl(messyUrl);
+                this.roomImages.clean = await this.loadImageFromUrl(cleanUrl);
+                console.log('Loaded room images from Firebase');
+                return;
+            }
+        } catch (error) {
+            console.warn('Failed to load from Firebase, using local images:', error);
+        }
+        
+        // Fallback to local images
+        try {
+            // Try PNG first, then JPG
+            try {
+                this.roomImages.messy = await this.loadImageFromUrl(`images/rooms/${roomType}/messy.png`);
+            } catch {
+                this.roomImages.messy = await this.loadImageFromUrl(`images/rooms/${roomType}/messy.jpg`);
+            }
+            
+            try {
+                this.roomImages.clean = await this.loadImageFromUrl(`images/rooms/${roomType}/clean.png`);
+            } catch {
+                this.roomImages.clean = await this.loadImageFromUrl(`images/rooms/${roomType}/clean.jpg`);
+            }
+            
+            console.log('Loaded room images from local storage');
+        } catch (error) {
+            console.warn('Failed to load local images, using placeholder:', error);
+            // Create placeholder images
+            this.roomImages.messy = await this.createPlaceholderRoom('messy');
+            this.roomImages.clean = await this.createPlaceholderRoom('clean');
+        }
+    }
+
+    async loadImageFromUrl(url) {
+        return new Promise((resolve, reject) => {
+            const img = new Image();
+            img.onload = () => resolve(img);
+            img.onerror = reject;
+            img.src = url;
+        });
     }
 
     async createPlaceholderRoom(type) {
